@@ -2,7 +2,7 @@
 #define __SERV_UART_H__
 
 // 该服务的代码段起始地址
-#define SERV_UART_CODE_SEG_BASE 0x31200000
+#define SERV_UART_CODE_SEG_BASE 0x31204000
 
 
 /* Define register address about uart */

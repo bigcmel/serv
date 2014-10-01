@@ -2,7 +2,7 @@
 # Makefile for uart_serv	#
 #################################
 
-ENTRYPOINT	= 0x31200000
+ENTRYPOINT	= 0x31204000
 
 SERV_NAME	= uart_serv
 
