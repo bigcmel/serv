@@ -1,5 +1,29 @@
 #include "../serv_global.h"
-#include "serv_uart.h"
+#include "serv_info.h"
+
+
+
+void serv_choose_opt(WORD opt_code, WORD* para_list, WORD para_num)
+{
+  switch( opt_code )
+    {
+    case SERV_UART_INIT:
+      serv_uart_init();
+      break;
+    case SERV_UART_SendByte:
+      serv_uart_SendByte(para_list, para_num);
+      break;
+    case SERV_UART_SendString:
+      serv_uart_SendString(para_list, para_num);
+      break;
+    default:
+      SERV_ERR_CODE = SERV_ERR_UND_OPT;
+      serv_handle_error();
+      break;
+    }
+}
+
+
 
 void serv_uart_init()
 {
@@ -54,6 +78,6 @@ void serv_uart_SendString(WORD* para_list, WORD para_num)
   opt_code_base = (WORD*)OPT_CODE_BASE;
   return_code_base = (WORD*)RETURN_CODE_BASE;
 
-  *opt_code_base = SYS_SERV_RETURN_OPT;
+  *opt_code_base = SERV_RETURN_OPT;
   *return_code_base = counter;
 }

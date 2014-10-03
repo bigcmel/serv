@@ -1,9 +1,9 @@
-#include "../serv.h"
-#include "serv_servm.h"
+#include "../serv_global.h"
+#include "serv_info.h"
 
 
 static WORD serv_get_idx(WORD code_seg_base);
-static void serv_choose_opt(WORD opt_code, WORD* para_list, WORD para_num);
+extern void serv_choose_opt(WORD opt_code, WORD* para_list, WORD para_num); // form serv_lib_funcs.c
 
 void main()
 {
@@ -19,7 +19,7 @@ void main()
 
 
   // 不仅获得索引，还得到了全局变量 CODE_SEG_LIMIT 和 PARA_SEG_BASE 的值
-  serv_idx = serv_get_idx(SERV_SERVM_CODE_SEG_BASE);
+  serv_idx = serv_get_idx(SERV_CODE_SEG_BASE);
 
 
   // 获得所有需要的参数值
@@ -42,13 +42,13 @@ void main()
 WORD serv_get_idx(WORD code_seg_base)
 {
   WORD serv_idx;
-  ptr_sys_serv_table ptr_serv_table_tmp;
+  ptr_serv_table ptr_serv_table_tmp;
 
   
-  ptr_serv_table_tmp = (ptr_sys_serv_table)SYS_REGISTER_TABLE_BASE;
+  ptr_serv_table_tmp = (ptr_serv_table)SERV_REGISTER_TABLE_BASE;
 
   //  这里还要对全局变量 CODE_SEG_LIMIT 和 PARA_SEG_BASE 赋值
-  for(serv_idx = 0; serv_idx < SYS_SERV_MAX_NUM; serv_idx ++)
+  for(serv_idx = 0; serv_idx < SERV_MAX_NUM; serv_idx ++)
     {
       if((ptr_serv_table_tmp -> CODE_SEG_BASE) == code_seg_base)
 	{
@@ -66,28 +66,5 @@ WORD serv_get_idx(WORD code_seg_base)
   RETURN_CODE_BASE = PARA_SEG_BASE + 4;
 
   return serv_idx;
-}
-
-
-void serv_choose_opt(WORD opt_code, WORD* para_list, WORD para_num)
-{
-  switch( opt_code )
-    {
-    case SERV_SERVM_INIT:
-      serv_servm_init();
-      break;
-    case SERV_SERVM_add_serv:
-      serv_servm_add_serv(para_list, para_num);
-      break;
-    case SERV_SERVM_register_serv:
-      serv_servm_register_serv(para_list, para_num);
-      break;
-    case SERV_SERVM_get_empty_idx:
-      serv_servm_get_empty_idx();
-    default:
-      SERV_ERR_CODE = SERV_ERR_UND_OPT;
-      serv_handle_error();
-      break;
-    }
 }
 

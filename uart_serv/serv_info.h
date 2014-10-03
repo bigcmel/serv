@@ -1,8 +1,8 @@
-#ifndef __SERV_UART_H__
-#define __SERV_UART_H__
+#ifndef __SERV_INFO_H__
+#define __SERV_INFO_H__
 
 // 该服务的代码段起始地址
-#define SERV_UART_CODE_SEG_BASE 0x31204000
+#define SERV_CODE_SEG_BASE 0x31204000
 
 
 /* Define register address about uart */
@@ -34,9 +34,8 @@
 #define SERV_UART_SendString 0x3
 
 
-
 // 下面即该服务提供的所有函数
-// 下面的函数全部出于 serv_uart_funcs.c
+// 下面的函数全部出于 serv_lib_funcs.c
 extern void serv_uart_init();
 extern void serv_uart_SendByte(WORD* para_list, WORD para_num);
 extern void serv_uart_SendString(WORD* para_list, WORD para_num);

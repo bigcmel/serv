@@ -1,5 +1,31 @@
 #include "../serv_global.h"
-#include "serv_servm.h"
+#include "serv_info.h"
+
+
+
+void serv_choose_opt(WORD opt_code, WORD* para_list, WORD para_num)
+{
+  switch( opt_code )
+    {
+    case SERV_SERVM_INIT:
+      serv_servm_init();
+      break;
+    case SERV_SERVM_add_serv:
+      serv_servm_add_serv(para_list, para_num);
+      break;
+    case SERV_SERVM_register_serv:
+      serv_servm_register_serv(para_list, para_num);
+      break;
+    case SERV_SERVM_get_empty_idx:
+      serv_servm_get_empty_idx();
+    default:
+      SERV_ERR_CODE = SERV_ERR_UND_OPT;
+      serv_handle_error();
+      break;
+    }
+}
+
+
 
 void serv_servm_init()
 {
@@ -73,7 +99,7 @@ WORD serv_servm_get_empty_idx()
   opt_code_base = (WORD*)OPT_CODE_BASE;
   return_code_base = (WORD*)RETURN_CODE_BASE;
 
-  *opt_code_base = SYS_SERV_RETURN_OPT;
+  *opt_code_base = SERV_RETURN_OPT;
   *return_code_base = serv_idx;
 
   return serv_idx;

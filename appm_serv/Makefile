@@ -2,9 +2,9 @@
 # Makefile for uart_serv	#
 #################################
 
-ENTRYPOINT	= 0x31204000
+ENTRYPOINT	= 0x31208000
 
-SERV_NAME	= uart_serv
+SERV_NAME	= appm_serv
 
 # Programs, flags, etc.
 OBJ-FILES-PATH	= ./OBJS
@@ -25,8 +25,8 @@ DASMFLAGS	= -D -b binary -m arm
 SERV		= $(SERV_NAME).bin
 SERVELF		= $(SERV_NAME).elf
 OBJS		= $(OBJ-FILES-PATH)/serv_startup.o $(OBJ-FILES-PATH)/main.o \
-	   	$(OBJ-FILES-PATH)/serv_lib_funcs.o $(OBJ-FILES-PATH)/serv_global.o
-#LIBS		= $(LIB-FILES-PATH)/syscall.lib
+	   	$(OBJ-FILES-PATH)/serv_lib_funcs.o $(OBJ-FILES-PATH)/serv_global.o \
+		$(OBJ-FILES-PATH)/APP_Handler.o
 DASMOUTPUT	= $(SERV_NAME).bin.asm
 
 # All Phony Targets
@@ -68,3 +68,7 @@ $(OBJ-FILES-PATH)/serv_lib_funcs.o: serv_lib_funcs.c
 
 $(OBJ-FILES-PATH)/serv_global.o: ../serv_global.c
 	$(CC) $(CFLAGS) -o $@ $<
+
+$(OBJ-FILES-PATH)/APP_Handler.o: APP_Handler.S
+	$(ASM) $(ASMFLAGS) -o $@ $<
+
