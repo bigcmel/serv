@@ -93,11 +93,16 @@ int SERV_ERR_CODE;
 #define SERV_ERR_UND_IDX 0x1
 #define SERV_ERR_UND_OPT 0x2
 
-extern void serv_handle_error();
-
 
 // sys 服务中操作码的定义，这里的操作码都是规定好的，所有的 sys 服务都必须包含这些操作码
 #define SERV_RETURN_OPT 0x0
+
+
+// 下面函数定义于 serv_global.c
+extern void serv_handle_error();
+
+extern WORD serv_get_idx(WORD code_seg_base);
+
 
 
 #endif

@@ -2,7 +2,7 @@
 #define __SERV_INFO_H__
 
 // 该服务的代码段起始地址
-#define SERV_CODE_SEG_BASE 0x31208000
+#define SERV_CODE_SEG_BASE 0x31204000
 
 
 // appm 中进程的最大数量

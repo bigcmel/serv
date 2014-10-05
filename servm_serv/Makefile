@@ -26,7 +26,6 @@ SERV		= $(SERV_NAME).bin
 SERVELF		= $(SERV_NAME).elf
 OBJS		= $(OBJ-FILES-PATH)/serv_startup.o $(OBJ-FILES-PATH)/main.o \
 	   	$(OBJ-FILES-PATH)/serv_lib_funcs.o $(OBJ-FILES-PATH)/serv_global.o
-#LIBS		= $(LIB-FILES-PATH)/syscall.lib
 DASMOUTPUT	= $(SERV_NAME).bin.asm
 
 # All Phony Targets

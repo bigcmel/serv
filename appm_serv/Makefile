@@ -2,7 +2,7 @@
 # Makefile for uart_serv	#
 #################################
 
-ENTRYPOINT	= 0x31208000
+ENTRYPOINT	= 0x31204000
 
 SERV_NAME	= appm_serv
 
@@ -72,3 +72,5 @@ $(OBJ-FILES-PATH)/serv_global.o: ../serv_global.c
 $(OBJ-FILES-PATH)/APP_Handler.o: APP_Handler.S
 	$(ASM) $(ASMFLAGS) -o $@ $<
 
+$(OBJ-FILES-PATH)/uart.o: ../../testkernel/hardware/uart.c
+	$(CC) $(CFLAGS) -o $@ $<

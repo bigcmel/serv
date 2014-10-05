@@ -42,10 +42,10 @@ static void MMU_SwitchContext( WORD app_idx );
 
 void serv_appm_init()
 {
-  short int app_idx;
+  WORD app_idx;
 
 
-  //  Uart_SendString("appm setup.\n",13);
+  //  Uart_SendString("appm setup.\n",12);
 
   APPM_TABLE = (ptr_appm_node)APPM_REGISTER_TABLE_BASE;
   
@@ -79,10 +79,11 @@ void serv_appm_run()
       
       appm_jmp_to_app( APPM_TOKEN );
 
+
       APPM_TABLE[APPM_TOKEN].status = APPM_APP_STATUS_FINISHED;
       APPM_FILL_APP_NUM--;
-    }
 
+    }
 }
 
 // 为全局进程表添加一个新的应用程序
@@ -99,43 +100,41 @@ void serv_appm_register_app(WORD* para_list, WORD para_num)
   WORD* opt_code_base;
   WORD* return_code_base;  
 
+  //  Uart_SendString("appm register.\n",15);
 
   app_name = (BYTE*)para_list[0];
   app_binary_base = (BYTE*)para_list[1];
   app_binary_length = para_list[2];
+
+  
+  opt_code_base = (WORD*)OPT_CODE_BASE;
+  *opt_code_base = SERV_RETURN_OPT;
 
 
   i = 0;
   app_idx = appm_get_empty_idx();
 
   APPM_TABLE[app_idx].idx = app_idx;
+  APPM_TABLE[app_idx].status = APPM_APP_STATUS_READY;
 
-  while( (char_tmp = app_name[i]) != 0 )
+  while( (char_tmp=app_name[i]) != 0 )
     {
       APPM_TABLE[app_idx].name[i] = char_tmp;
       i++;
-
-      if(i == 5)
-	break;
     }
-
+  APPM_TABLE[app_idx].name[i] = 0;
   APPM_TABLE[app_idx].name_length = i;
   
   APPM_TABLE[app_idx].binary_base = app_binary_base;
-
   APPM_TABLE[app_idx].binary_length = app_binary_length;
-
-
-  APPM_TABLE[app_idx].status = APPM_APP_STATUS_READY;
 
   APPM_FILL_APP_NUM++;
 
 
-  opt_code_base = (WORD*)OPT_CODE_BASE;
   return_code_base = (WORD*)RETURN_CODE_BASE;
-
-  *opt_code_base = SERV_RETURN_OPT;
   *return_code_base = app_idx;
+  
+
 }
 
 
@@ -143,7 +142,7 @@ void serv_appm_register_app(WORD* para_list, WORD para_num)
 static void appm_scheduling()
 {
   WORD app_idx;
-  int status_tmp;
+  WORD status_tmp;
 
   for(app_idx=APPM_FIRST_APP_IDX ; app_idx<APPM_APP_NUM ; app_idx++)
     {
@@ -171,7 +170,7 @@ static void appm_jmp_to_app( WORD app_idx )
 static WORD appm_get_empty_idx()
 {
   WORD app_idx;
-  int status_tmp;
+  WORD status_tmp;
 
   for(app_idx=APPM_FIRST_APP_IDX ; app_idx<APPM_APP_NUM ; app_idx++)
     {
